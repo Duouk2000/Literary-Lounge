@@ -50,26 +50,31 @@
 
 
 
-<!-- Section 10 and 11 start-->
+    <!-- Section 10 and 11 start-->
 
-    <div class="row bg-dark">
-        <div class="col-md-6 mx-auto">
-            <div class="card flex-md-row mt-4 mb-4 box-shadow h-md-250">
-                <div class="card-body d-flex flex-column align-items-start overflow-auto" style="max-height: 250px;">
-                    <strong class="d-inline-block mb-2 text-primary">Drink</strong>
-                    <h6 class="mb-2 drinkName"></h6>
-                    <p class="card-text mb-2 drinking"></p>
-                    <p class="card-text mb-auto drinkinst overflow-auto"></p>
-                </div>
-                <img class="card-img-right flex-auto d-none d-md-block drinkImg"
-                    data-src="holder.js/200x250?theme=thumb" alt="Thumbnail [200x250]"
-                    src=""
-                    data-holder-rendered="true" style="width: 200px; height: 250px;">
+    <div class="container mx-auto mt-5">
+        <div class="row mx-auto" style="width: 80%;">
+          <!-- First Column -->
+          <div class="col-lg-8">
+            <div class="card h-100">
+              <div class="card-body overflow-auto" style="max-height: 290px;">
+                <h6 class="card-title drinkName"></h6>
+                <p class="card-text drinking"></p>
+                <p class="card-text drinkinst"></p>
+              </div>
             </div>
+          </div>
+      
+          <!-- Second Column -->
+          <div class="col-lg-4">
+            <div class="card">
+              <img src="your-image-url.jpg" class="card-img-top img-fluid drinkImg" alt="Image for Card 3">
+            </div>
+          </div>
         </div>
-    </div>
-    
-<!-- Section 10 and 11 end-->
+      </div>
+
+    <!-- Section 10 and 11 end-->
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
