@@ -1,12 +1,25 @@
-$("#author-search").on("keypress", function (event) {
-    if (event.key === "Enter") {
+// Listen for any input that is entered into the search box
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('search-form').addEventListener('submit', function (event) {
       event.preventDefault();
+      const cocktailUrl = document.getElementById('author-search').value;
+      fetchRandomDrinkInformation(cocktailUrl);
+    });
+  });
+
+  function fetchRandomDrinkInformation() {
+    var cocktailUrl = "https://thecocktaildb.com/api/json/v1/1/random.php";
   
-      var bookInput = $("#author-search").val().trim();
-      var cocktailUrl = "https://thecocktaildb.com/api/json/v1/1/random.php";
+
+// $("#author-search").on("keypress", function (event) {
+//     if (event.key === "Enter") {
+//       event.preventDefault();
   
-      // Clear previous data and reset the page
-      resetPage();
+//       var bookInput = $("#author-search").val().trim();
+//       var cocktailUrl = "https://thecocktaildb.com/api/json/v1/1/random.php";
+  
+//       // Clear previous data and reset the page
+//       resetPage();
   
       // Fetch random cocktail data
       fetch(cocktailUrl)
@@ -55,8 +68,8 @@ $("#author-search").on("keypress", function (event) {
           // Clear the search input field
           $("#search-input").val("");
         });
+   
     }
-  });
   
   // Function to get all ingredients from a drink object
   function getAllIngredients(drink) {
