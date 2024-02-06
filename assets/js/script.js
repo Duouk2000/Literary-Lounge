@@ -1,6 +1,7 @@
 var clickedImgId = '';
 var carousel = $('#cover-carousel');
 var innerCarousel = $("#innerCarousel");
+
 // Listen for any input that is entered into the search box
 document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('search-form').addEventListener('submit', function (event) {
@@ -124,12 +125,9 @@ function displayBookDesc(items){
         var bookTitle = items[i].volumeInfo.title;
         var bookUrl = items[i].volumeInfo.canonicalVolumeLink;
         var bookDesc = items[i].volumeInfo.description;
-          if(bookDesc.length > 400){
-            bookDesc = bookDesc.substring(0, 400) + " ...";
-          }
           $('#book-title').text(bookTitle);
           $('#book-desc').text(bookDesc);
-          $('#book-url').text('View book in Google Books')
+          $('#book-url').text('View in Google Books')
           $('#book-url').attr("href", bookUrl);
           $('#book-url').attr("target", "_blank");        
         }      
@@ -248,7 +246,6 @@ function resetPage() {
   $("#author-search").val(""); // Assuming .drinkImg is the class of your image element
   $('#book-desc-col').children().text('');
   $('#author').children().text('');
-
   innerCarousel.empty();
 }
 
