@@ -9,7 +9,7 @@ Literary Lounge is an innovative app designed to enhance your reading experience
 - Receive personalized drink recommendations to pair with your chosen book
 
 ## Demo
-You can view a live demo of Literary Lounge [here](https://your-demo-url.com).
+You can view a live demo of Literary Lounge [here](https://duouk2000.github.io/Literary-Lounge/).
 
 ## Screenshots
 ![Screenshot 1](/screenshots/screenshot1.png)
