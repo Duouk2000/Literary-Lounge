@@ -44,7 +44,7 @@
 .bioContainer{
     margin-top: 20px;
     padding: 20px;   
-    border: 1px solid black;
+    border: 1px solid gray;
 }
     
 .carousel-button{
@@ -52,8 +52,7 @@
     height: fit-content;
     top: 100px;
     background-color: gray;
-    border-radius: 50%;
-    
+    border-radius: 50%;    
 }
 
 .drinkImg{
