@@ -106,6 +106,7 @@ function displayBookCarousel(array) {
     }
 
     innerCarousel.append(newCarouselItem);
+    $('#book-desc').text("Click on a book to view its description");
   }
   }else{
     var coverCarousel = $('#cover-carousel');
@@ -124,7 +125,10 @@ function displayBookDesc(authorWorks){
   var bookDescCol = $('#book-desc-col')
   //set all fields to blank to begin with
   $('book-desc-col').children().text("");
-
+  // $('#book-desc').text("Click on a book to view its description");
+  // $('#book-title').text("");
+  // $('#book-url').text("");
+  // Fetch work key for clicked image
   for(var i = 0; i < authorWorks.length; i++){
     if ('covers' in authorWorks[i]){
       if((authorWorks[i].covers).includes(Number(clickedImgCover))){
