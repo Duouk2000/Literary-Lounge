@@ -16,11 +16,18 @@
     height: 200px;
 }
 
-
 .column{
     border: 1px solid black;
     padding: 50px 5px;
 }
+
+
+.bioContainer{
+    margin-top: 20px;
+    padding: 20px;   
+    border: 1px solid black;
+}
+    
 .carousel-button{
     width: fit-content;
     height: fit-content;
