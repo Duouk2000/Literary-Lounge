@@ -3,11 +3,31 @@ var carousel = $('#cover-carousel');
 var innerCarousel = $("#innerCarousel");
 var defaultCover = "../../images/default-book-cover.png"
 
+
+pageLoad();
+
+function pageLoad(){
+  var defaultAuthor = " "
+  if(localStorage.getItem("author")!==null){
+    defaultAuthor = localStorage.getItem("author");
+  }else{
+    defaultAuthor = "Dan Brown"
+  }
+  fetchAuthorWorks(defaultAuthor);
+  searchAuthorName(defaultAuthor);
+  fetchRandomDrinkInformation();  
+}
+
+function saveAuthorToLocalStorage(author){
+  localStorage.setItem("author", author);
+}
+
 // Listen for any input that is entered into the search box
 document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('search-form').addEventListener('submit', function (event) {
     event.preventDefault();
     const authorName = document.getElementById('author-search').value;
+    saveAuthorToLocalStorage(authorName);
     fetchAuthorWorks(authorName);
     searchAuthorName(authorName);
     fetchRandomDrinkInformation();
