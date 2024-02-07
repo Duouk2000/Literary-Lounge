@@ -35,7 +35,7 @@ function searchAuthorName(authorName) {
 //fetch author works
 function fetchAuthorWorks(name) {
   var apiKey = "AIzaSyDtC1WiKcd8r4Tngf5rf4wik_-WLFWrAeo"; 
-  const worksQueryUrl = "https://www.googleapis.com/books/v1/volumes?q=inauthor:" +name+ "&langRestrict=en&key="+apiKey;
+  const worksQueryUrl = "https://www.googleapis.com/books/v1/volumes?q=inauthor:" +name+ "&langRestrict=en&maxResults=30&key="+apiKey;
   
   fetch(worksQueryUrl)
     .then(function (response) {
