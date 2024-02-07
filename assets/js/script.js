@@ -55,6 +55,7 @@ function fetchAuthorWorks(name) {
             bookCover = defaultCover;
           }
           var bookId = authorWorks.items[i].id;
+          var bookTitle = authorWorks.items[i].volumeInfo.title;
           coverObj.id = bookId;
           coverObj.thumbnail = bookCover;
           coverObj.title = bookTitle;
