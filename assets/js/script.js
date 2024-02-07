@@ -1,6 +1,7 @@
 var clickedImgId = '';
 var carousel = $('#cover-carousel');
 var innerCarousel = $("#innerCarousel");
+var defaultCover = "../../images/default-book-cover.png"
 
 // Listen for any input that is entered into the search box
 document.addEventListener('DOMContentLoaded', function () {
@@ -34,7 +35,7 @@ function searchAuthorName(authorName) {
 //fetch author works
 function fetchAuthorWorks(name) {
   var apiKey = "AIzaSyDtC1WiKcd8r4Tngf5rf4wik_-WLFWrAeo"; 
-  const worksQueryUrl = "https://www.googleapis.com/books/v1/volumes?q=inauthor:" +name+ "&langRestrict=en&key="+apiKey;
+  const worksQueryUrl = "https://www.googleapis.com/books/v1/volumes?q=inauthor:" +name+ "&langRestrict=en&maxResults=30&key="+apiKey;
   
   fetch(worksQueryUrl)
     .then(function (response) {
@@ -43,26 +44,32 @@ function fetchAuthorWorks(name) {
     .then(function (authorWorks) {
       var coversArray = [];
       console.log(authorWorks)
-      //create array of objects with keys of book id and book cover thumbnail
+      //create array of objects with keys of book id, book cover thumbnail, 
+      //and book title for caption
       for (var i = 0; i < (authorWorks.items).length; i++) {
-          var coverObj = {}
-          var bookCover = authorWorks.items[i].volumeInfo.imageLinks.thumbnail;
+          var coverObj = {};
+          var bookCover = '';
+          if("imageLinks" in authorWorks.items[i].volumeInfo){
+            bookCover = authorWorks.items[i].volumeInfo.imageLinks.thumbnail;
+          }else{
+            bookCover = defaultCover;
+          }
           var bookId = authorWorks.items[i].id;
+          var bookTitle = authorWorks.items[i].volumeInfo.title;
           coverObj.id = bookId;
           coverObj.thumbnail = bookCover;
+          coverObj.title = bookTitle;
           coversArray.push(coverObj);  
         }
 
       displayBookCarousel(coversArray);
       //Handle book cover click event
       carousel.on("click", ".card", function (event) {
-        console.log("I'm clicked");
         clickedImgId = ($(event.target)).attr('id');
         displayBookDesc(authorWorks.items);
       })
     })
 }
-
 
 function displayBookCarousel(array) {
 
@@ -84,19 +91,31 @@ function displayBookCarousel(array) {
     }else{
       newCarouselItem.addClass('carousel-item');
     }
-    
+    //create html for carousel structure and assign values
     var newCardDiv = $('<div>');
     newCardDiv.addClass("card-wrapper")
     newCarouselItem.append(newCardDiv);
     for (var i = 0; i < arrayOfArrays[j].length; i++) {
       var coverUrl = arrayOfArrays[j][i].thumbnail;
       var coverId = arrayOfArrays[j][i].id;
-      var newCard = $('<div>')
-      newCard.addClass("card book-card")
-      var coverImg = $('<img>')
+      var newCard = $('<div>');
+      newCard.addClass("card book-card");
+      var fig = $('<figure>');
+      fig.attr('id', 'cover-fig');
+      var coverImg = $('<img>');
       coverImg.attr('src', coverUrl);
       coverImg.attr('id', coverId);
-      newCard.append(coverImg);
+      var caption = $('<figcaption>');
+      caption.attr('id', 'cover-caption');
+      if(coverUrl === defaultCover){
+        //set caption as book title for default cover image
+        caption.text(arrayOfArrays[j][i].title);
+      }else{
+        caption.text('');
+      }
+      fig.append(coverImg);
+      fig.append(caption);
+      newCard.append(fig);
       newCardDiv.append(newCard);
     }
 
@@ -104,6 +123,7 @@ function displayBookCarousel(array) {
     $('#book-desc').text("Click on a book to view its description");
   }
   }else{
+    //If no books are returned
     var coverCarousel = $('#cover-carousel');
     coverCarousel.addClass('invisible');
     var bookCol = $('#book-col');
