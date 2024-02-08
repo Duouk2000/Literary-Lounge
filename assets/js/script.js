@@ -2,8 +2,6 @@ var clickedImgId = '';
 var carousel = $('#cover-carousel');
 var innerCarousel = $("#innerCarousel");
 var defaultCover = "images/default-book-cover.png"
-
-
 pageLoad();
 
 function pageLoad(){
@@ -58,7 +56,7 @@ function searchAuthorName(authorName) {
       displayAuthorInformation(authorData);
     });
   // Call the function to fetch random drink information
-  fetchRandomDrinkInformation();
+  // fetchRandomDrinkInformation();
 }
 
 //fetch author works
@@ -100,7 +98,16 @@ function fetchAuthorWorks(name) {
         //Handle book cover click event
         carousel.on("click", ".card", function (event) {
           clickedImgId = ($(event.target)).attr('id');
-          displayBookDesc(authorWorks.items);
+          
+          for(var i = 0; i < (authorWorks.items).length; i++){
+            if(authorWorks.items[i].id === clickedImgId){
+              // Fetch book description for clicked image id
+              displayBookDesc(authorWorks.items[i]);
+              searchAuthorName(authorWorks.items[i].volumeInfo.authors[0]);
+
+            }
+          }          
+
         })
 
       }
@@ -172,25 +179,20 @@ function displayBookCarousel(array) {
   }  
 }
 
-function displayBookDesc(items){
+function displayBookDesc(item){
 
   var bookDescCol = $('#book-desc-col')
   //set all fields to blank to begin with
   $('book-desc-col').children().text("");
-
-  // Fetch book description for clicked image id
-  for(var i = 0; i < items.length; i++){
-      if(items[i].id === clickedImgId){
-        var bookTitle = items[i].volumeInfo.title;
-        var bookUrl = items[i].volumeInfo.canonicalVolumeLink;
-        var bookDesc = items[i].volumeInfo.description;
-          $('#book-title').text(bookTitle);
-          $('#book-desc').text(bookDesc);
-          $('#book-url').text('View in Google Books')
-          $('#book-url').attr("href", bookUrl);
-          $('#book-url').attr("target", "_blank");        
-        }      
-    }
+      var bookTitle = item.volumeInfo.title;
+      var bookUrl = item.volumeInfo.canonicalVolumeLink;
+      var bookDesc = item.volumeInfo.description;
+        $('#book-title').text(bookTitle);
+        $('#book-desc').text(bookDesc);
+        $('#book-url').text('View in Google Books')
+        $('#book-url').attr("href", bookUrl);
+        $('#book-url').attr("target", "_blank");                 
+    
 }
 
 function displayAuthorInformation(authorData) {
@@ -210,32 +212,37 @@ fetch(authorKeyAPI)
   })
   .then(function (authorKey) {
     console.log(authorKey);
-    
+    var authorBio = ''
     // Check if the data structure does not contain string as there is no consistency with this API
-    if (typeof authorKey.bio !== 'string') {
-      document.getElementById('bio').textContent = `Bio: There is no biography for this author`;
-    } else if (typeof authorKey.bio === 'string') {
+   if (typeof authorKey.bio === 'string') {
+    authorBio = authorKey.bio;
+   } else if(typeof authorKey.bio === 'object'){
+    authorBio = authorKey.bio.value;
+   }else{
+    authorBio = 'There is no biography for this author';
+   }
 
     // Check if 'bio' property exists and contains words relating to sources
     let indexOfWords;
     // Search for various words in the bio api section
-    if (authorKey.bio.includes('([Source')) {    
-      indexOfWords = authorKey.bio.indexOf('([Source');
-    } else if (authorKey.bio.includes('[Source')) {      
-      indexOfWords = authorKey.bio.indexOf('[Source');
-    } else if (authorKey.bio.includes('[Wikipedia')) {      
-      indexOfWords = authorKey.bio.indexOf('[Wikipedia');
-    } else if (authorKey.bio.includes('<sup>')) {      
-      indexOfWords = authorKey.bio.indexOf('<sup>');
+    if (authorBio.includes('([Source')) {    
+      indexOfWords = authorBio.indexOf('([Source');
+    } else if (authorBio.includes('[Source')) {      
+      indexOfWords = authorBio.indexOf('[Source');
+    } else if (authorBio.includes('[Wikipedia')) {      
+      indexOfWords = authorBio.indexOf('[Wikipedia');
+    } else if (authorBio.includes('<sup>')) {      
+      indexOfWords = authorBio.indexOf('<sup>');
     }
     // Remove text after the above words are located    
-      authorKey.bio = authorKey.bio.substring(0, indexOfWords);    
+      authorBio = authorBio.substring(0, indexOfWords); 
+      document.getElementById('bio').textContent = `Bio: ${authorBio}`;
 
     // Display author information on the HTML elements
     document.getElementById('name').textContent = `Author: ${authorKey.name}`;
     document.getElementById('dob').textContent = `Date of Birth: ${authorKey.birth_date}`;
-    document.getElementById('bio').textContent = `Bio: ${authorKey.bio}`;
-  }
+    
+  
   });
 }
 
