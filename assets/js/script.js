@@ -26,11 +26,20 @@ function saveAuthorToLocalStorage(author){
 document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('search-form').addEventListener('submit', function (event) {
     event.preventDefault();
-    const authorName = document.getElementById('author-search').value;
-    saveAuthorToLocalStorage(authorName);
-    fetchAuthorWorks(authorName);
-    searchAuthorName(authorName);
-    fetchRandomDrinkInformation();
+    //check for blank input
+    if(!document.getElementById('author-search').value){
+      document.getElementById('error').classList.remove('invisible');
+      document.getElementById('error').classList.add('mb-3');
+      pageLoad();
+    }else{
+      document.getElementById('error').classList.remove('mb-3');
+      document.getElementById('error').classList.add('invisible');
+      const authorName = document.getElementById('author-search').value;
+      saveAuthorToLocalStorage(authorName);
+      fetchAuthorWorks(authorName);
+      searchAuthorName(authorName);
+      fetchRandomDrinkInformation();
+    }
     resetPage();
   });
 });
@@ -62,32 +71,42 @@ function fetchAuthorWorks(name) {
       return response.json()
     })
     .then(function (authorWorks) {
-      var coversArray = [];
-      console.log(authorWorks)
-      //create array of objects with keys of book id, book cover thumbnail, 
-      //and book title for caption
-      for (var i = 0; i < (authorWorks.items).length; i++) {
-          var coverObj = {};
-          var bookCover = '';
-          if("imageLinks" in authorWorks.items[i].volumeInfo){
-            bookCover = authorWorks.items[i].volumeInfo.imageLinks.thumbnail;
-          }else{
-            bookCover = defaultCover;
+      if(authorWorks.length === 0)
+      {
+        throw new Error('Author not found!!!')
+        pageLoad();
+      }else{
+        var coversArray = [];
+        console.log(authorWorks)
+        //create array of objects with keys of book id, book cover thumbnail, 
+        //and book title for caption
+        for (var i = 0; i < (authorWorks.items).length; i++) {
+            var coverObj = {};
+            var bookCover = '';
+            if("imageLinks" in authorWorks.items[i].volumeInfo){
+              bookCover = authorWorks.items[i].volumeInfo.imageLinks.thumbnail;
+            }else{
+              bookCover = defaultCover;
+            }
+            var bookId = authorWorks.items[i].id;
+            var bookTitle = authorWorks.items[i].volumeInfo.title;
+            coverObj.id = bookId;
+            coverObj.thumbnail = bookCover;
+            coverObj.title = bookTitle;
+            coversArray.push(coverObj);  
           }
-          var bookId = authorWorks.items[i].id;
-          var bookTitle = authorWorks.items[i].volumeInfo.title;
-          coverObj.id = bookId;
-          coverObj.thumbnail = bookCover;
-          coverObj.title = bookTitle;
-          coversArray.push(coverObj);  
-        }
+  
+        displayBookCarousel(coversArray);
+        //Handle book cover click event
+        carousel.on("click", ".card", function (event) {
+          clickedImgId = ($(event.target)).attr('id');
+          displayBookDesc(authorWorks.items);
+        })
 
-      displayBookCarousel(coversArray);
-      //Handle book cover click event
-      carousel.on("click", ".card", function (event) {
-        clickedImgId = ($(event.target)).attr('id');
-        displayBookDesc(authorWorks.items);
-      })
+      }
+
+    }).catch(error =>{
+        console.log("Error: " + error);
     })
 }
 
