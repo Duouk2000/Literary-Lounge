@@ -212,32 +212,36 @@ fetch(authorKeyAPI)
   })
   .then(function (authorKey) {
     console.log(authorKey);
-    
+    var authorBio = ''
     // Check if the data structure does not contain string as there is no consistency with this API
-    if (typeof authorKey.bio !== 'string') {
-      document.getElementById('bio').textContent = `Bio: There is no biography for this author`;
-    } else if (typeof authorKey.bio === 'string') {
+   if (typeof authorKey.bio === 'string') {
+    authorBio = authorKey.bio;
+   } else if(typeof authorKey.bio === 'object'){
+    authorBio = authorKey.bio.value;
+   }else{
+    authorBio = 'There is no biography for this author';
+   }
 
     // Check if 'bio' property exists and contains words relating to sources
     let indexOfWords;
     // Search for various words in the bio api section
-    if (authorKey.bio.includes('([Source')) {    
-      indexOfWords = authorKey.bio.indexOf('([Source');
-    } else if (authorKey.bio.includes('[Source')) {      
-      indexOfWords = authorKey.bio.indexOf('[Source');
-    } else if (authorKey.bio.includes('[Wikipedia')) {      
-      indexOfWords = authorKey.bio.indexOf('[Wikipedia');
-    } else if (authorKey.bio.includes('<sup>')) {      
-      indexOfWords = authorKey.bio.indexOf('<sup>');
+    if (authorBio.includes('([Source')) {    
+      indexOfWords = authorBio.indexOf('([Source');
+    } else if (authorBio.includes('[Source')) {      
+      indexOfWords = authorBio.indexOf('[Source');
+    } else if (authorBio.includes('[Wikipedia')) {      
+      indexOfWords = authorBio.indexOf('[Wikipedia');
+    } else if (authorBio.includes('<sup>')) {      
+      indexOfWords = authorBio.indexOf('<sup>');
     }
     // Remove text after the above words are located    
-      authorKey.bio = authorKey.bio.substring(0, indexOfWords); 
-    }   
+      authorBio = authorBio.substring(0, indexOfWords); 
+      document.getElementById('bio').textContent = `Bio: ${authorBio}`;
 
     // Display author information on the HTML elements
     document.getElementById('name').textContent = `Author: ${authorKey.name}`;
     document.getElementById('dob').textContent = `Date of Birth: ${authorKey.birth_date}`;
-    document.getElementById('bio').textContent = `Bio: ${authorKey.bio}`;
+    
   
   });
 }
