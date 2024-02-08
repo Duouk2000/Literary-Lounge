@@ -229,13 +229,14 @@ fetch(authorKeyAPI)
       indexOfWords = authorKey.bio.indexOf('<sup>');
     }
     // Remove text after the above words are located    
-      authorKey.bio = authorKey.bio.substring(0, indexOfWords);    
+      authorKey.bio = authorKey.bio.substring(0, indexOfWords); 
+    }   
 
     // Display author information on the HTML elements
     document.getElementById('name').textContent = `Author: ${authorKey.name}`;
     document.getElementById('dob').textContent = `Date of Birth: ${authorKey.birth_date}`;
     document.getElementById('bio').textContent = `Bio: ${authorKey.bio}`;
-  }
+  
   });
 }
 
