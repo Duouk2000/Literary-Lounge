@@ -24,19 +24,19 @@
                 <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Our Mission</a>
+                            <a class="nav-link" href="mission.html">Our Mission</a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Books</a>
+                            <a class="nav-link" href="https://openlibrary.org/developers/api">Books</a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Drinks</a>
+                            <a class="nav-link" href="https://www.thecocktaildb.com/api.php">Drinks</a>
                         </li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">About</a>
+                            <a class="nav-link" href="about.html">About</a>
                         </li>
                     </ul>
                 </div>
@@ -58,7 +58,7 @@
     <div class="container">
         <div class="row">
             <!-- Books carousel -->
-            <div class="column col-lg-4 col-md-4"id="book-col">
+            <div class="column col-lg-4 col-md-4 rounded-start"id="book-col">
                 <div id="cover-carousel" class="carousel carousel" data-bs-interval="false" >
                     <div class="carousel-inner" id="innerCarousel">
                         <!-- carousel items created through js -->
@@ -82,7 +82,7 @@
                 <div id="book-desc" class="overflow-auto"> </div>
                 <a id="book-url"></a>
             </div>
-            <div class="column author col=lg-4 col-md-4" id="author">
+            <div class="column author col=lg-4 col-md-4 rounded-end" id="author">
                 <p id="name"></p>
                 <p id="dob"></p>
                 <p id="top-work"></p>
@@ -99,10 +99,10 @@
 
     <!-- Section 10 and 11 start-->
 
-    <div class="container mx-auto my-5">
-        <div class="row mx-auto" style="width: 80%;">
+    <div class="container drinksContainer mx-auto my-3">
+        <div class="row mx-auto" style="width: 100%;">
           <!-- First Column -->
-          <div class="col-lg-8">
+          <div class="drinkText col-lg-8 rounded">
             <div class="card h-100">
               <div class="card-body overflow-auto" style="max-height: 290px;">
                 <h6 class="card-title drinkName"></h6>
@@ -113,9 +113,9 @@
           </div>
       
           <!-- Second Column -->
-          <div class="col-lg-4">
+          <div class="drinkClass col-lg-4">
             <div class="card">
-              <img src="" class="card-img-top img-fluid drinkImg" alt="Image for Card 3">
+              <img src="" class="card-img-top img-fluid drinkImg rounded" alt="Image for Card 3">
             </div>
           </div>
         </div>
