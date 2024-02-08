@@ -2,8 +2,6 @@ var clickedImgId = '';
 var carousel = $('#cover-carousel');
 var innerCarousel = $("#innerCarousel");
 var defaultCover = "images/default-book-cover.png"
-
-
 pageLoad();
 
 function pageLoad(){
@@ -58,7 +56,7 @@ function searchAuthorName(authorName) {
       displayAuthorInformation(authorData);
     });
   // Call the function to fetch random drink information
-  fetchRandomDrinkInformation();
+  // fetchRandomDrinkInformation();
 }
 
 //fetch author works
@@ -100,7 +98,16 @@ function fetchAuthorWorks(name) {
         //Handle book cover click event
         carousel.on("click", ".card", function (event) {
           clickedImgId = ($(event.target)).attr('id');
-          displayBookDesc(authorWorks.items);
+          
+          for(var i = 0; i < (authorWorks.items).length; i++){
+            if(authorWorks.items[i].id === clickedImgId){
+              // Fetch book description for clicked image id
+              displayBookDesc(authorWorks.items[i]);
+              searchAuthorName(authorWorks.items[i].volumeInfo.authors[0]);
+
+            }
+          }          
+
         })
 
       }
@@ -172,25 +179,20 @@ function displayBookCarousel(array) {
   }  
 }
 
-function displayBookDesc(items){
+function displayBookDesc(item){
 
   var bookDescCol = $('#book-desc-col')
   //set all fields to blank to begin with
   $('book-desc-col').children().text("");
-
-  // Fetch book description for clicked image id
-  for(var i = 0; i < items.length; i++){
-      if(items[i].id === clickedImgId){
-        var bookTitle = items[i].volumeInfo.title;
-        var bookUrl = items[i].volumeInfo.canonicalVolumeLink;
-        var bookDesc = items[i].volumeInfo.description;
-          $('#book-title').text(bookTitle);
-          $('#book-desc').text(bookDesc);
-          $('#book-url').text('View in Google Books')
-          $('#book-url').attr("href", bookUrl);
-          $('#book-url').attr("target", "_blank");        
-        }      
-    }
+      var bookTitle = item.volumeInfo.title;
+      var bookUrl = item.volumeInfo.canonicalVolumeLink;
+      var bookDesc = item.volumeInfo.description;
+        $('#book-title').text(bookTitle);
+        $('#book-desc').text(bookDesc);
+        $('#book-url').text('View in Google Books')
+        $('#book-url').attr("href", bookUrl);
+        $('#book-url').attr("target", "_blank");                 
+    
 }
 
 function displayAuthorInformation(authorData) {
