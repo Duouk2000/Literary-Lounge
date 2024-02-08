@@ -1,8 +1,12 @@
-.container-fluid {
+body{
+    background-color: #A52A2A
+}
+
+.container-fluid{
     padding: 0px;
  }
 
- .card-wrapper{
+.card-wrapper{
     display: flex;
 }
 
@@ -19,6 +23,7 @@
 
 .column{
     border: 1px solid gray;
+    background-color: white;
 }
 #cover-carousel{
     margin: 50px 5px;
@@ -41,11 +46,15 @@
     color: gray;
 }
 #book-desc-col{
-    padding: 20px 5px;   
+    padding: 20px 5px;  
+    border-left: 0; 
 }
 #author{
     padding: 20px;
+    border-left: 0;
+    padding-right: 0;
 }
+
 #book-desc{
     margin: 20px 15px;
     max-height: 200px;
@@ -61,6 +70,7 @@
     margin-top: 20px;
     padding: 20px;   
     border: 1px solid gray;
+    background-color: white;
 }
     
 .carousel-button{
@@ -70,6 +80,26 @@
     background-color: gray;
     border-radius: 50%;    
 }
+
+.drinksContainer{
+    padding-left: 0;
+    padding-right: 0;    
+}
+
+.drinkText{
+    padding-left: 0;
+}
+
+.h-100{
+    border: 1px solid gray;
+}
+
+.drinkClass{
+    padding-right: 0;   
+     
+}
+
 .drinkImg{
     width: fit-content;
+    border: 1px solid gray;    
 }
