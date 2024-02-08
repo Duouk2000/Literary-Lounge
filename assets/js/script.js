@@ -191,6 +191,11 @@ fetch(authorKeyAPI)
   })
   .then(function (authorKey) {
     console.log(authorKey);
+    
+    // Check if the data structure does not contain string as there is no consistency with this API
+    if (typeof authorKey.bio !== 'string') {
+      document.getElementById('bio').textContent = `Bio: There is no biography for this author`;
+    } else if (typeof authorKey.bio === 'string') {
 
     // Check if 'bio' property exists and contains words relating to sources
     let indexOfWords;
@@ -211,8 +216,10 @@ fetch(authorKeyAPI)
     document.getElementById('name').textContent = `Author: ${authorKey.name}`;
     document.getElementById('dob').textContent = `Date of Birth: ${authorKey.birth_date}`;
     document.getElementById('bio').textContent = `Bio: ${authorKey.bio}`;
+  }
   });
 }
+
 
 function fetchRandomDrinkInformation() {
   var cocktailUrl = "https://thecocktaildb.com/api/json/v1/1/random.php";
