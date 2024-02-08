@@ -1,21 +1,29 @@
+// Variable to store the ID of the clicked book cover
 var clickedImgId = '';
+// jQuery selectors for the carousel elements
 var carousel = $('#cover-carousel');
 var innerCarousel = $("#innerCarousel");
+// Default book cover image path
 var defaultCover = "images/default-book-cover.png"
+
+// Function to be called on page load
 pageLoad();
 
 function pageLoad(){
+  // Default author name
   var defaultAuthor = " "
+  // Check if author is stored in local storage, if not use default author (Dan Brown)
   if(localStorage.getItem("author")!==null){
     defaultAuthor = localStorage.getItem("author");
   }else{
     defaultAuthor = "Dan Brown"
   }
+  // Fetch author's works and other information on page load
   fetchAuthorWorks(defaultAuthor);
   searchAuthorName(defaultAuthor);
   fetchRandomDrinkInformation();  
 }
-
+// Function to save the author's name to local storage
 function saveAuthorToLocalStorage(author){
   localStorage.setItem("author", author);
 }
@@ -24,7 +32,7 @@ function saveAuthorToLocalStorage(author){
 document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('search-form').addEventListener('submit', function (event) {
     event.preventDefault();
-    //check for blank input
+    //Check for blank input
     if(!document.getElementById('author-search').value){
       document.getElementById('error').classList.remove('invisible');
       document.getElementById('error').classList.add('mb-3');
@@ -55,11 +63,9 @@ function searchAuthorName(authorName) {
 
       displayAuthorInformation(authorData);
     });
-  // Call the function to fetch random drink information
-  // fetchRandomDrinkInformation();
 }
 
-//fetch author works
+// Function to fetch and display the works of a given author
 function fetchAuthorWorks(name) {
   var apiKey = "AIzaSyDtC1WiKcd8r4Tngf5rf4wik_-WLFWrAeo"; 
   const worksQueryUrl = "https://www.googleapis.com/books/v1/volumes?q=inauthor:" +name+ "&langRestrict=en&maxResults=30&key="+apiKey;
@@ -75,8 +81,7 @@ function fetchAuthorWorks(name) {
         pageLoad();
       }else{
         var coversArray = [];
-        console.log(authorWorks)
-        //create array of objects with keys of book id, book cover thumbnail, 
+        //Create array of objects with keys of book id, book cover thumbnail, 
         //and book title for caption
         for (var i = 0; i < (authorWorks.items).length; i++) {
             var coverObj = {};
@@ -104,40 +109,36 @@ function fetchAuthorWorks(name) {
               // Fetch book description for clicked image id
               displayBookDesc(authorWorks.items[i]);
               searchAuthorName(authorWorks.items[i].volumeInfo.authors[0]);
-
             }
-          }          
-
+          }         
         })
-
       }
-
     }).catch(error =>{
         console.log("Error: " + error);
     })
 }
-
+// Function to display the book carousel based on an array of book covers
 function displayBookCarousel(array) {
 
   if(array.length){
-    //create an array of sub-arrays of a length = number of books per carsousel item
+    //Create an array of sub-arrays of a length = number of books per carsousel item
   var arrayOfArrays = [];
   var size = 3;
   for (var i = 0; i < array.length; i++) {
     arrayOfArrays.push(array.slice(i, i += size))
   }
 
-  //append carousel items
+  //Append carousel items
   for (var j = 0; j < arrayOfArrays.length; j++) {
 
     var newCarouselItem = $('<div>')
     if(j === 0){
-      //set class active for first carousel item
+      //Set class active for first carousel item
       newCarouselItem.addClass('carousel-item active');
     }else{
       newCarouselItem.addClass('carousel-item');
     }
-    //create html for carousel structure and assign values
+    //Create html for carousel structure and assign values
     var newCardDiv = $('<div>');
     newCardDiv.addClass("card-wrapper")
     newCarouselItem.append(newCardDiv);
@@ -154,7 +155,7 @@ function displayBookCarousel(array) {
       var caption = $('<figcaption>');
       caption.attr('id', 'cover-caption');
       if(coverUrl === defaultCover){
-        //set caption as book title for default cover image
+        //Set caption as book title for default cover image
         caption.text(arrayOfArrays[j][i].title);
       }else{
         caption.text('');
@@ -178,11 +179,11 @@ function displayBookCarousel(array) {
     bookCol.append(newP);
   }  
 }
-
+// Function to display the book description for the clicked book cover
 function displayBookDesc(item){
 
   var bookDescCol = $('#book-desc-col')
-  //set all fields to blank to begin with
+  //Set all fields to blank to begin with
   $('book-desc-col').children().text("");
       var bookTitle = item.volumeInfo.title;
       var bookUrl = item.volumeInfo.canonicalVolumeLink;
@@ -194,11 +195,8 @@ function displayBookDesc(item){
         $('#book-url').attr("target", "_blank");                 
     
 }
-
+// Function to display additional author information
 function displayAuthorInformation(authorData) {
-  // Console log data to work out the data structure
-  console.log(authorData);
-
   // Pull top work of the author into the HTML element
   document.getElementById('top-work').textContent = `Top Work: ${authorData.docs[0].top_work}`;
 
@@ -211,7 +209,6 @@ fetch(authorKeyAPI)
     return response.json();
   })
   .then(function (authorKey) {
-    console.log(authorKey);
     var authorBio = ''
     // Check if the data structure does not contain string as there is no consistency with this API
    if (typeof authorKey.bio === 'string') {
@@ -240,26 +237,13 @@ fetch(authorKeyAPI)
 
     // Display author information on the HTML elements
     document.getElementById('name').textContent = `Author: ${authorKey.name}`;
-    document.getElementById('dob').textContent = `Date of Birth: ${authorKey.birth_date}`;
-    
-  
+    document.getElementById('dob').textContent = `Date of Birth: ${authorKey.birth_date}`;  
   });
 }
 
-
+// Function to fetch random drink information from a cocktail API
 function fetchRandomDrinkInformation() {
   var cocktailUrl = "https://thecocktaildb.com/api/json/v1/1/random.php";
-
-
-  // $("#author-search").on("keypress", function (event) {
-  //     if (event.key === "Enter") {
-  //       event.preventDefault();
-
-  //       var bookInput = $("#author-search").val().trim();
-  //       var cocktailUrl = "https://thecocktaildb.com/api/json/v1/1/random.php";
-
-  //       // Clear previous data and reset the page
-  //       resetPage();
 
   // Fetch random cocktail data
   fetch(cocktailUrl)
@@ -270,7 +254,6 @@ function fetchRandomDrinkInformation() {
       return response.json();
     })
     .then(function (cocktailData) {
-      console.log("Cocktail API Response:", cocktailData);
       var drinkName = cocktailData.drinks[0].strDrink;
       var drinkImg = cocktailData.drinks[0].strDrinkThumb;
       var drinkInst = cocktailData.drinks[0].strInstructions;
@@ -281,12 +264,6 @@ function fetchRandomDrinkInformation() {
         var ingredients = getAllIngredients(drink);
         allIngredients = allIngredients.concat(ingredients);
       });
-
-      console.log("All Ingredients:", allIngredients);
-
-      console.log(drinkName);
-      console.log(drinkImg);
-      console.log(drinkInst);
 
       $(".drinkName").text(`Drink name: ${drinkName}`);
       $(".drinkinst").text(`Instruction: ${drinkInst}`);
@@ -301,7 +278,6 @@ function fetchRandomDrinkInformation() {
         drinkImg: drinkImg
       });
 
-
     })
     .catch(function (error) {
       console.error("Error fetching cocktail data:", error.message);
@@ -310,7 +286,6 @@ function fetchRandomDrinkInformation() {
       // Clear the search input field
       $("#author-search").val("");
     });
-
 }
 
 // Function to get all ingredients from a drink object
