@@ -12,8 +12,7 @@ Literary Lounge is an innovative app designed to enhance your reading experience
 You can view a live demo of Literary Lounge [here](https://duouk2000.github.io/Literary-Lounge/).
 
 ## Screenshots
-![Screenshot 1](/screenshots/screenshot1.png)
-![Screenshot 2](/screenshots/screenshot2.png)
+![alt text](screencapture-127-0-0-1-5500-index-html-2024-02-08-09_33_50.png)
 ...
 
 ## Installation
@@ -34,18 +33,18 @@ You can view a live demo of Literary Lounge [here](https://duouk2000.github.io/L
 5. Submit a pull request
 
 ## Contributors
-- [John Doe](https://github.com/johndoe)
-- [Jane Smith](https://github.com/janesmith)
-- [Jane Smith](https://github.com/janesmith)
-- [Jane Smith](https://github.com/janesmith)
-- [Jane Smith](https://github.com/janesmith)
+- [Oluwadamilola Ajayi](https://github.com/dodomiyake)
+- [Andrew Sinkinson](https://github.com/Duouk2000)
+- [Shalini Sunkuru](https://github.com/ShaliniSunkuru)
+- [Trisha Waku](https://github.com/twaku2324)
 ...
 
 ## Acknowledgments
 - The team at Literary Lounge for their dedication and hard work
 - [OpenLibrary API](https://openlibrary.org/developers/api) for book information
+- [Google Books API](https://developers.google.com/books) for book information.
 - [TheCocktailDB API](https://www.thecocktaildb.com/api.php) for drink recommendations
 ...
 
 ## Contact
-For any inquiries or feedback, please contact [Literary Lounge Team](mailto:contact@literarylounge.com). 
+For any inquiries or feedback, please contact Literary Lounge Team. 
